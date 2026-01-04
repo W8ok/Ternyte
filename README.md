@@ -21,7 +21,7 @@ Goals obviously change over time so the initial goals might be very different fr
 * Advanced GUI to allow for greated user specific configuration while remaining easy and intuitive to use.  
 
 ## Roadmap
-[] **Foundational progress** - Get a basic terminal interface working with the core functions
+[] **Foundational progress** - Get a basic terminal interface working with the core functions  
 [] **GUI** - Get a GUI working and basic drawing capabilities  
 [] **Binary** - Implement all binary logic gates  
 [] **Ternary** - Implement the basic and most universal of ternary logic gates  
