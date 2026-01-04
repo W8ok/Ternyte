@@ -19,6 +19,7 @@ Goals obviously change over time so the initial goals might be very different fr
 * A builtin algorithm to calculate a logic diagram from a truth table from selected gates.  
 * Arbitrary sized buslines and gate input counts.  
 * Advanced GUI to allow for greated user specific configuration while remaining easy and intuitive to use.  
+* Integrate binary and ternary gates to allow for them both to be used in a single circuit.  
 
 ## Roadmap
 [] **Foundational progress** - Get a basic terminal interface working with the core functions  
