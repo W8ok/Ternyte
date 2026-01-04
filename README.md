@@ -22,7 +22,7 @@ Goals obviously change over time so the initial goals might be very different fr
 * Integrate binary and ternary gates to allow for them both to be used in a single circuit.  
 
 ## Roadmap
-[] **Foundational progress** - Get a basic terminal interface working with the core functions  
+[x] **Foundational progress** - Get a basic terminal interface working with the core logic functions  
 [] **GUI** - Get a GUI working and basic drawing capabilities  
 [] **Binary** - Implement all binary logic gates  
 [] **Ternary** - Implement the basic and most universal of ternary logic gates  
@@ -32,4 +32,4 @@ Goals obviously change over time so the initial goals might be very different fr
 Currently in active development thus the roadmap will be subject to active change.  
 
 ## Dev Log / Notes
-**4/01/2026** - The project is started and so far autism powers the motivation to continue. The core of project has been organized and is just waiting for me to begin.  
+**4/01/2026** - The project is started and so far autism powers the motivation to continue. The core of project has been organized and minor progress to the different logic gates are made and tested. Next step is to get working on some form of GUI, im thinking either raylib or SDL2/3.  
