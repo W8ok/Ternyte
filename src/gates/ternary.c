@@ -3,7 +3,8 @@
 
 #include "../types.h"
 
-static int trit_index(trit t) { return t + 1; } // To not have any "magic" numbers in the trit table array indexing
+// To not have any "magic" numbers in the trit table array indexing
+static int trit_index(trit t) { return t + 1; } 
 
 // Gate lookup table... just easier for nonboolean logic
 static const trit neg_table[3] = {
