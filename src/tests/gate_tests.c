@@ -2,8 +2,8 @@
 #include <stdio.h>
 
 #include "../types.h"
-#include "../gates/binary.h"
-#include "../gates/ternary.h"
+#include "../gates/logic_binary.h"
+#include "../gates/logic_ternary.h"
 
 void binary_gate_testing(){
   

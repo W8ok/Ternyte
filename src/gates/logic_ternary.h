@@ -1,6 +1,6 @@
-// gates/ternary.h
-#ifndef TERNARY_H
-#define TERNARY_H
+// gates/logic_ternary.h
+#ifndef LOGIC_TERNARY_H
+#define LOGIC_TERNARY_H
 
 #include "../types.h"
 

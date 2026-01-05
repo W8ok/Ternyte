@@ -1,4 +1,4 @@
-// gates/ternary.c
+// gates/logic_ternary.c
 #include <stdint.h>
 
 #include "../types.h"

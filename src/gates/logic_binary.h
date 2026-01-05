@@ -1,6 +1,6 @@
-// gates/binary.h
-#ifndef BINARY_H
-#define BINARY_H
+// gates/logic_binary.h
+#ifndef LOGIC_BINARY_H
+#define LOGIC_BINARY_H
 
 #include "../types.h"
 

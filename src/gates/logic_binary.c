@@ -1,4 +1,4 @@
-// gates/binary.c
+// gates/logic_binary.c
 #include <stdint.h>
 #include <stdbool.h> 
 
