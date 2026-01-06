@@ -9,7 +9,7 @@ So i decided to try and make my own.
 
 Goals obviously change over time so the initial goals might be very different from future goals.
 
-### Inital Goals
+### Initial Goals
 * **The basics** - A simple expandable logic simulator with binary and ternary logic in primary focus.  
 * **Chip making** - The ability to combine logic gates together to make a "chip" in a hierarchical structure.  
 * **Save data** - The program should have a save function to save chips made and the project as a whole.  
