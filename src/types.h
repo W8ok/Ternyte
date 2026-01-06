@@ -22,6 +22,13 @@ typedef struct{
   int currentMonitor;
 } ui_state;
 
+// Tooling
+typedef enum {
+    TOOL_SELECT,
+    TOOL_WIRE,
+    TOOL_COMPONENT  // for later use in component selection
+} Tool;
+
 // Wires
 #define WIRE_THICKNESS 3
 #define MAX_WIRES 65536
