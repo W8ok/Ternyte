@@ -7,7 +7,10 @@ TARGET = ternyte
 # All source files
 SRCS = src/main.c \
 			 src/gates/logic_ternary.c \
-			 src/gates/logic_binary.c 
+			 src/gates/logic_binary.c \
+			 src/ui/initialization.c \
+			 src/ui/panels.c \
+			 src/ui/wires.c
 
 # Convert .c files to .o files
 OBJS = $(SRCS:.c=.o)
