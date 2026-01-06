@@ -5,7 +5,6 @@
 #include "raylib.h"
 #include "../types.h"
 
-// Window/UI initialization
 void window_initialization(ui_state* ui);
 
 #endif

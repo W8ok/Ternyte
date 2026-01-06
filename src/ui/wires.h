@@ -5,7 +5,6 @@
 #include "raylib.h"
 #include "../types.h"
 
-// Wire drawing functions
 void draw_wires(ui_state* ui);
 
 #endif
