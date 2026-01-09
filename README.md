@@ -23,7 +23,7 @@ Goals obviously change over time so the initial goals might be very different fr
 
 ## Roadmap
 [x] **Foundational progress** - Get a basic terminal interface working with the core logic functions  
-[] **GUI** - Get a GUI working and basic drawing capabilities  
+[x] **GUI** - Get a GUI working and basic drawing capabilities  
 [] **Binary** - Implement all binary logic gates  
 [] **Ternary** - Implement the basic and most universal of ternary logic gates  
 [] **Persistance** - Save data and project seperation  
@@ -32,6 +32,7 @@ Goals obviously change over time so the initial goals might be very different fr
 Currently in active development thus the roadmap will be subject to active change.  
 
 ## Dev Log / Notes
-**04/01/2026** - The project is started and so far the autism powers the motivation to continue. The core of the project has been organized and a few of the different logic gates are made and tested. Next step is to get working on some form of GUI, im thinking either raylib or SDL2/3.  
-**05/01/2026** - I tried out SDL3, but it refused to work. I assume the issue is wayland related but i'm not sure. Raylib worked fine, so thats what the project will use i suppose. Got the GUI foundation up and running and currently working on drawing "wires" to the workspace.  
+**04/01/2026** - The project is started and so far the autism powers the motivation to continue. The core of the project has been organized and a few of the different logic gates are made and tested. Next step is to get working on some form of GUI, I'm thinking either raylib or SDL2/3.  
+**05/01/2026** - I tried out SDL3, but it refused to work. I assume the issue is wayland related, but I'm not sure, nor do i care enough to find out. Raylib worked fine, so thats what the project will use I suppose. Got the GUI foundation up and running and currently working on drawing "wires" to the workspace.  
 **06/01/2026** - Just figured out how to snap the wire drawing to the grid, and next thing will be how to get wire selection and arbitrary deletion working. Then the base GUI is considered done.  
+**09/01/2026** - Mostly finished up the wire drawing mechanics, mostly polish left to do but I think im comfortable ticking the GUI part of the roadmap as completed.  

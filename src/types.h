@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include "raylib.h"
 
+
 // UI elements
 #define SCREEN_SIZE_FACTOR 0.8
 #define FPS 60
@@ -22,12 +23,6 @@ typedef struct{
   int currentMonitor;
 } ui_state;
 
-// Tooling
-typedef enum {
-    TOOL_SELECT,
-    TOOL_WIRE,
-    TOOL_COMPONENT  // for later use in component selection
-} Tool;
 
 // Wires
 #define WIRE_THICKNESS 3
@@ -36,10 +31,39 @@ typedef enum {
 typedef struct{
   Vector2 start;
   Vector2 end;
+  bool selected;
+  bool deleted;
+  Color color;
 } wire;
 
 extern wire wires[MAX_WIRES];
 extern int wire_count;
+
+
+// Tooling
+typedef enum {
+    TOOL_SELECT,
+    TOOL_WIRE,
+    TOOL_COMPONENT  // for later use in component selection
+} Tool;
+
+#define MAX_UNDO 256
+
+typedef enum {
+    OP_ADD_WIRE,
+    OP_DELETE_WIRE,
+    //OP_MOVE_WIRE
+} operation_type;
+
+typedef struct {
+    operation_type type;
+    int wire_index;
+    wire wire_state;
+} undo_entry;
+
+extern undo_entry undo_stack[MAX_UNDO];
+extern int undo_top;
+
 
 // Gates
 #define BIT_FALSE  ((bit)0)
