@@ -15,6 +15,7 @@
 // Tooling keybinds
 #define KEY_WIRE_TOOL IsKeyPressed(KEY_W)
 #define KEY_SELECT_TOOL IsKeyPressed(KEY_S)
+#define KEY_COMPONENT_TOOL IsKeyPressed(KEY_C)
 
 // Drawing keybinds
 #define STRAIGHT (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))

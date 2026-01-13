@@ -8,6 +8,7 @@ TARGET = ternyte
 SRCS = src/main.c \
 			 src/gates/logic_ternary.c \
 			 src/gates/logic_binary.c \
+			 src/gates/binary_gates_ui.c \
 			 src/ui/initialization.c \
 			 src/ui/panels.c \
 			 src/ui/wires.c

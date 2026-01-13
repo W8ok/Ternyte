@@ -8,6 +8,7 @@
 #include "keybinds.h"
 #include "gates/logic_binary.h"
 #include "gates/logic_ternary.h"
+#include "gates/binary_gates_ui.h"
 #include "ui/initialization.h"
 #include "ui/panels.h"
 #include "ui/wires.h"
@@ -22,10 +23,10 @@ int undo_top = 0;
 Tool update_tool(Tool current_tool){
   if (KEY_SELECT_TOOL) return TOOL_SELECT;
   if (KEY_WIRE_TOOL) return TOOL_WIRE;
+  if (KEY_COMPONENT_TOOL) return TOOL_COMPONENT;
 
   return current_tool;
 }
-
 
 void undo(){
   undo_entry last = undo_stack[--undo_top];
@@ -44,7 +45,8 @@ int main(void){
 
   // Initialization
   ui_state ui;
-  Tool current_tool = TOOL_WIRE;
+  Tool current_tool;
+  current_tool = TOOL_SELECT;
 
   window_initialization(&ui);
   SetExitKey(KEY_NULL);
@@ -57,7 +59,9 @@ int main(void){
     BeginDrawing();
 
     draw_base_ui(&ui);
+    draw_gate_selection(&ui, &current_tool);
     render_wires();
+    render_binary_gates();
 
     switch(current_tool){
       case TOOL_SELECT:
@@ -68,6 +72,7 @@ int main(void){
         draw_wires(&ui);
         break;
       case TOOL_COMPONENT:
+        draw_binary_gates(&ui);
         break;
     }
 

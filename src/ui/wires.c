@@ -4,26 +4,11 @@
 
 #include "../types.h"
 #include "../keybinds.h"
+#include "panels.h"
 #include "raylib.h"
 
 wire wires[MAX_WIRES];
 int wire_count = 0;
-
-Vector2 snap_to_grid(Vector2 point, Rectangle workspace, int grid_size) {
-    // Adjust point relative to workspace
-    float relative_x = point.x - workspace.x;
-    float relative_y = point.y - workspace.y;
-    
-    // Find the nearest grid multiple
-    float snapped_x = roundf(relative_x / grid_size) * grid_size;
-    float snapped_y = roundf(relative_y / grid_size) * grid_size;
-    
-    // Add workspace offset back
-    snapped_x += workspace.x;
-    snapped_y += workspace.y;
-    
-    return (Vector2){snapped_x, snapped_y};
-}
 
 
 void draw_wires(ui_state* ui){

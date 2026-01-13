@@ -1,7 +1,7 @@
 # Ternyte - My (hopefully) actually useful passion project
 
 I was looking for a good ternary logic simulator but couldn't find anything that fit my needs.  
-So i decided to try and make my own.  
+So I decided to try and make my own.  
   
 **Current Status**: In active development and will likely not be useable for a few weeks at least.  
 
