@@ -1,88 +1,90 @@
 // main.c
 #include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h> 
 #include "raylib.h"
 
+#include "src.h"
+#include "defines.h"
 #include "types.h"
-#include "keybinds.h"
-#include "gates/logic_binary.h"
-#include "gates/logic_ternary.h"
-#include "gates/binary_gates_ui.h"
-#include "ui/initialization.h"
-#include "ui/panels.h"
-#include "ui/wires.h"
 
-#include "tests/gate_tests.c"
+#include "ui/ui.h"
+#include "wires/wires.h"
+#include "tools/tools.h"
+#include "gates/gates.h"
 
 
-undo_entry undo_stack[MAX_UNDO];
-int undo_top = 0;
+int main(void)
+{
+  App app;
+  Ui ui;
+  Circuit cir;
+  Move move;
 
+  app.current_menu = BaseMenu;
 
-Tool update_tool(Tool current_tool){
-  if (KEY_SELECT_TOOL) return TOOL_SELECT;
-  if (KEY_WIRE_TOOL) return TOOL_WIRE;
-  if (KEY_COMPONENT_TOOL) return TOOL_COMPONENT;
-
-  return current_tool;
-}
-
-void undo(){
-  undo_entry last = undo_stack[--undo_top];
-   
-  switch(last.type) {
-    case OP_ADD_WIRE:
-      wire_count--;
-      break;
-    case OP_DELETE_WIRE:
-      wires[last.wire_index] = last.wire_state;
-      break;
-  }
-}
-
-int main(void){
-
-  // Initialization
-  ui_state ui;
-  Tool current_tool;
-  current_tool = TOOL_SELECT;
-
-  window_initialization(&ui);
   SetExitKey(KEY_NULL);
+  WindowInitialization(&app, &ui);
+  CircuitInitialization(&cir, &move);
 
-  // Main loop
-  while (!WindowShouldClose()){
+  Wire wires[cir.max_wires];
+  BinaryGate binary[cir.max_gates];
 
-    current_tool = update_tool(current_tool);
+  while (!WindowShouldClose())
+  {
+    ui.mouse_pos = GetMousePosition();
+    cir.snapped_pos = SnapToGrid(ui.mouse_pos, ui.workspace_rec, GRID_SIZE);
+    SelectTools(&app);
 
     BeginDrawing();
+    ClearBackground(BLACK);
 
-    draw_base_ui(&ui);
-    draw_gate_selection(&ui, &current_tool);
-    render_wires();
-    render_binary_gates();
+    DrawBaseUi(&ui);
+    RenderBinaryGates(&cir, binary);
+    RenderWires(&cir, wires);
 
-    switch(current_tool){
-      case TOOL_SELECT:
-        select_wires(&ui);
-        if(CUT) cut_wires();
+    // Tool Control
+    switch (app.current_tool)
+    {
+      case OperateTool:
+        OperateBinaryInputs(&ui, &cir, binary);
         break;
-      case TOOL_WIRE:
-        draw_wires(&ui);
+      case WireTool:
+        DrawWires(&ui, &cir, wires, binary);
         break;
-      case TOOL_COMPONENT:
-        draw_binary_gates(&ui);
+      case SelectTool:
+        SelectWires(&ui, &cir, wires);
+        SelectBinaryGates(&ui, &cir, binary);
+
+        if (CUT)
+        {
+          CutWires(&cir, wires);
+          CutGates(&cir, binary);
+        }
+        break;
+      case GateTool:
+        DrawBinaryGates(&ui, &app, &cir, wires, binary);
+        break;
+      case MoveTool:
+        MoveGates(&app, &cir, &move, binary);
         break;
     }
 
-    // Global undo handling
-    if(UNDO && undo_top > 0) undo();
+    // Menu Control
+    switch (app.current_menu)
+    {
+      case BaseMenu:
+        BaseSelectionMenu(&ui, &app, &cir);
+        break;
+      case MenuMenu:
+        BaseMenuMenu(&ui, &app);
+        break;
+    }
 
-    ClearBackground(BLACK);
+    if (app.should_quit)
+      break;
 
-    EndDrawing(); 
+    EndDrawing();
   }
+
   CloseWindow();
   return 0;
 }

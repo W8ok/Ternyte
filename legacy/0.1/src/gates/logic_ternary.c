@@ -1,7 +1,9 @@
 // gates/logic_ternary.c
 #include <stdint.h>
 
-#include "../types.h"
+//#include "gates.h"
+#include "../core.h"
+
 
 // To not have any "magic" numbers in the trit table array indexing
 static int trit_index(trit t) { return t + 1; } 

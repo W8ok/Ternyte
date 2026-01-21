@@ -1,18 +1,20 @@
 // gates/binary_gates_ui.c
 #include <stdio.h>
-
-#include "../types.h"
-#include "../keybinds.h"
-#include "../ui/panels.h"
-#include "binary_gates_ui.h"
 #include "raylib.h"
+
+//#include "gates.h"
+#include "../core.h"
+#include "../keybinds.h"
 
 Vector2 size = (Vector2){GRID_SIZE * 2, GRID_SIZE};
 BinaryGate binary_gates[MAX_GATES];
 int gate_count = 0;
 
-const char* gate_type_to_string(BinaryGateType type) {
-  switch(type) {
+
+const char* GateTypeToString(BinaryGateType type)
+{
+  switch(type)
+  {
     case NOT: return "NOT";
     case AND: return "AND";
     case OR: return "OR";
@@ -22,8 +24,8 @@ const char* gate_type_to_string(BinaryGateType type) {
 }
 
 
-static BinaryGate get_gate_template(BinaryGateType type) {
-
+static BinaryGate get_gate_template(BinaryGateType type)
+{
   BinaryGate template = {0};
   template.gate_type = type;
   template.selected = false;
@@ -34,7 +36,8 @@ static BinaryGate get_gate_template(BinaryGateType type) {
   template.input1_gate_index = -1;
   template.input2_gate_index = -1;
   
-  switch(type) {
+  switch(type)
+  {
     case NOT:
       template.size = (Vector2){GRID_SIZE*3, GRID_SIZE*2};
       template.color = RED;
@@ -56,8 +59,8 @@ static BinaryGate get_gate_template(BinaryGateType type) {
 }
 
 
-void create_gate(BinaryGateType type, Vector2 position) {
-  
+void CreateGate(BinaryGateType type, Vector2 position)
+{  
   BinaryGate new_gate = get_gate_template(type);
   new_gate.position = position;
   
@@ -66,13 +69,14 @@ void create_gate(BinaryGateType type, Vector2 position) {
 }
 
 
-void draw_binary_gates(ui_state* ui) {
+void DrawBinaryGates(AppState* ui)
+{
   if(!ui->is_placing_gate) return;
 
   if(ESCAPE_PRESSED) ui->is_placing_gate = false;
 
   Vector2 mousePos = GetMousePosition();
-  Vector2 snapped_pos = snap_to_grid(mousePos, ui->workspace, GRID_SIZE);
+  Vector2 snapped_pos = SnapToGrid(mousePos, ui->workspace, GRID_SIZE);
   
   // Draw preview
   BinaryGate preview = get_gate_template(ui->selected_gate);
@@ -81,33 +85,33 @@ void draw_binary_gates(ui_state* ui) {
   DrawRectangleV(preview.position, preview.size, preview.color);
   
   // Draw label
-  const char* label = gate_type_to_string(ui->selected_gate);
+  const char* label = GateTypeToString(ui->selected_gate);
   int text_width = MeasureText(label, 20);
   int text_x = preview.position.x + (preview.size.x - text_width) / 2;
   int text_y = preview.position.y + (preview.size.y - 20) / 2;
   DrawText(label, text_x, text_y, 20, WHITE);
   
-  if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePos, ui->workspace)) {
-    create_gate(ui->selected_gate, snapped_pos);
+  if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePos, ui->workspace))
+  {
+    CreateGate(ui->selected_gate, snapped_pos);
     gate_count++; 
   }
 }
 
 
 // Replace this to actually make the gates not rectangles but real "sprites"
-void render_binary_gates(){
-  for(int i = 0; i < gate_count; i++) {
+void RenderBinaryGates(void)
+{
+  for(int i = 0; i < gate_count; i++)
+  {
     if(binary_gates[i].deleted) continue;
 
     DrawRectangleV(binary_gates[i].position, binary_gates[i].size, binary_gates[i].color);
     
-    const char* label = gate_type_to_string(binary_gates[i].gate_type);
+    const char* label = GateTypeToString(binary_gates[i].gate_type);
     int text_width = MeasureText(label, 20);
     int text_x = binary_gates[i].position.x + (binary_gates[i].size.x - text_width) / 2;
     int text_y = binary_gates[i].position.y + (binary_gates[i].size.y - 20) / 2;
     DrawText(label, text_x, text_y, 20, WHITE);
   }
 }
-
-
-

@@ -2,7 +2,9 @@
 #include <stdint.h>
 #include <stdbool.h> 
 
-#include "../types.h"
+//#include "gates.h"
+#include "../core.h"
+
 
 // Gate definitions
 bit gate_not(bit a)         { return !a; }

@@ -1,8 +1,10 @@
 // ui/initialization.c
-#include "../types.h"
 #include "raylib.h"
 
-void window_initialization(ui_state* ui){
+//#include "ui.h"
+#include "../core.h"
+
+void WindowInitialization(AppState* ui){
   // Initialization
   SetConfigFlags(FLAG_WINDOW_RESIZABLE);
   InitWindow(0, 0, "Ternyte");

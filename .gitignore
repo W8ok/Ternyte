@@ -5,6 +5,8 @@
 
 # Project executable
 ternyte
+winlibs/
+executables/
 
 # Editor files (Vim/NeoVim)
 *.swp
