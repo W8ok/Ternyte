@@ -14,6 +14,7 @@ SDL_AppResult SDL_AppIterate(void *appstate)
       // Useless variable to make WaitEvent stfu and do what i want
       SDL_Event event;
       SDL_WaitEvent(&event);
+      (void)event;
       goto Iterate_Render;
 
     case REAL_TIME:
