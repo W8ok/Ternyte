@@ -1,21 +1,15 @@
 # Sources
-SRCS = src/main.c \
-			 src/utilities.c \
-			 src/initialization.c \
-			 src/ui/panels.c \
-			 src/ui/menus.c \
-			 src/wires/draw_wires.c \
-			 src/wires/wire_tools.c \
-			 src/tools/tools.c \
-			 src/gates/draw_binary.c \
-			 src/gates/gate_tools.c
+SRCS = src/main.c
+
+# Assets
+ASSETS = assets/
 
 # Output directories
 PROJECT_NAME = ternyte
 OUT_DIR = executables
 LINUX_DIR = $(OUT_DIR)/$(PROJECT_NAME)-linux
-WINDOWS_DIR = $(OUT_DIR)/$(PROJECT_NAME)-windows
 LINUX_ZIP = $(OUT_DIR)/$(PROJECT_NAME)-linux.tar.gz
+WINDOWS_DIR = $(OUT_DIR)/$(PROJECT_NAME)-windows
 WINDOWS_ZIP = $(OUT_DIR)/$(PROJECT_NAME)-windows.zip
 
 # Binary names inside folders
@@ -25,20 +19,21 @@ WINDOWS_BIN = $(WINDOWS_DIR)/$(PROJECT_NAME).exe
 # Linux Config
 CC_LINUX = gcc
 CFLAGS_LINUX = -std=c11 -Wall -Wextra -Isrc -O2
-LDFLAGS_LINUX = -lraylib -lm -lpthread -ldl -s
+LDFLAGS_LINUX = -lSDL3 -lGL -lm -lpthread -ldl -s
 OBJS_LINUX = $(SRCS:src/%.c=obj/linux/%.o)
 
 # Windows Config
 CC_WIN = x86_64-w64-mingw32-gcc
 CFLAGS_WIN = -std=c11 -Wall -Wextra -Isrc -Iwinlibs/include
-LDFLAGS_WIN = -Lwinlibs/lib -lraylib -lm -lpthread -lwinmm -lgdi32
+LDFLAGS_WIN = -Lwinlibs/lib -lSDL3 -lopengl32 -lm -lpthread -lwinmm -lgdi32
 OBJS_WIN = $(SRCS:src/%.c=obj/win/%.o)
 
 # Simple Development Build
 DEV_BIN = $(PROJECT_NAME)
 DEV_OBJS = $(SRCS:src/%.c=obj/dev/%.o)
 
-.DEFAULT_GOAL := $(DEV_BIN)
+.DEFAULT_GOAL := clean-make
+
 
 linux: $(LINUX_ZIP)
 
@@ -66,8 +61,10 @@ obj/linux/%.o: src/%.c
 
 $(LINUX_DIR): $(LINUX_BIN)
 	@echo "Copying Linux libraries..."
-	cp /usr/lib/libraylib.so.550 $(LINUX_DIR)/ 2>/dev/null || true
+	cp /usr/lib/libSDL3.so $(LINUX_DIR)/ 2>/dev/null || echo "SDL3 not found in /usr/lib/"
 	cp /usr/lib/libgcc_s.so.1 $(LINUX_DIR)/ 2>/dev/null || true
+	@echo "Copying Linux assets..."
+	cp -r $(ASSETS) $(LINUX_DIR) 2>/dev/null || true
 
 $(LINUX_ZIP): $(LINUX_DIR)
 	cd $(OUT_DIR) && tar -czf $(PROJECT_NAME)-linux.tar.gz $(PROJECT_NAME)-linux/
@@ -85,20 +82,28 @@ obj/win/%.o: src/%.c
 
 $(WINDOWS_DIR): $(WINDOWS_BIN)
 	@echo "Copying Windows libraries..."
-	cp winlibs/lib/raylib.dll $(WINDOWS_DIR)/ 2>/dev/null || echo "Note: Add raylib.dll manually"
+	cp winlibs/lib/SDL3.dll $(WINDOWS_DIR)/ 2>/dev/null || echo "Note: Add SDL3.dll to winlibs/lib/"
 	find /usr -name "libgcc_s_seh-1.dll" 2>/dev/null | head -1 | xargs -I {} cp {} $(WINDOWS_DIR)/ 2>/dev/null || true
 	find /usr -name "libwinpthread-1.dll" 2>/dev/null | head -1 | xargs -I {} cp {} $(WINDOWS_DIR)/ 2>/dev/null || true
+	@echo "Copying Windows assets..."
+	cp -r $(ASSETS) $(WINDOWS_DIR) 2>/dev/null || true
 
 $(WINDOWS_ZIP): $(WINDOWS_DIR)
 	cd $(OUT_DIR) && zip -rq $(PROJECT_NAME)-windows.zip $(PROJECT_NAME)-windows/
 	@echo "Windows archive: $(WINDOWS_ZIP)"
 
 # Utilities
-run: $(DEV_BIN)
+run: clean-make
 	./$(DEV_BIN)
 
 clean:
 	rm -rf $(OUT_DIR) obj/ $(DEV_BIN)
+
+# Clean and clear before building
+clean-make:
+	@make clean-dev > /dev/null 2>&1 || true
+	@clear
+	@make $(DEV_BIN)
 
 clean-linux:
 	rm -rf $(LINUX_DIR) $(LINUX_ZIP) obj/linux/
@@ -121,3 +126,4 @@ help:
 	@echo "	make clean-windows	- Clean Windows builds"
 
 .PHONY: linux windows all run clean clean-dev clean-linux clean-windows help
+

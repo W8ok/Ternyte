@@ -1,14 +1,6 @@
 # Compiled objects
-*.o
-*.out
-*.exe
+obj/
 
-# Project executable
+# Project executables
 ternyte
-winlibs/
 executables/
-
-# Editor files (Vim/NeoVim)
-*.swp
-*.swo
-*~
