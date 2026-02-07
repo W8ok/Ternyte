@@ -24,8 +24,6 @@ Goals obviously change over time, so the initial goals might be very different f
 * **Automatic truth table generation** - Algorithms to generate logic diagrams from selected truth tables.  
 * **Large buses & variable input gates** - Arbitrary-sized connections and input counts for advanced circuit design.
 
----
-
 ## Roadmap
 
 [x] **Foundation setup** - Project restarted, SDL3 selected, and initial data structures designed.  
@@ -39,8 +37,6 @@ Goals obviously change over time, so the initial goals might be very different f
 [] **Advanced GUI features** - Zoom, selection, drag-and-drop, component menus likely made along side a custom GUI library.  
 [] **Hierarchical design** - Enable chip creation and combination.  
 [] **Autosave optimization** - Contiguous memory layout and multithreaded snapshot copying.
-
----
 
 ## Dev Log / Notes
 **04/01/2026** - Original project started, core logic gates implemented, GUI exploration with Raylib began.  
@@ -57,14 +53,10 @@ Goals obviously change over time, so the initial goals might be very different f
 - Starting fresh with a grid-based workspace and terminal-driven commands to build a solid foundation before adding logic, GUI features, and hierarchical design.  
 - Today marks the new starting point: a structured, scalable approach with long-term maintainability in mind.
 
----
-
 ## Algorithm Draft Sheet / Ideas
 
 This is a collection of ideas for how certain systems, especially saving and performance optimizations, could be implemented. Mostly for future reference and brainstorming.  
 The sheet is intentionally loose; ideas are meant to be grab-and-go for future-me. Some are simple, some are overkill, some might never get used. But it’s good to have a reference when implementing complex systems.  
-
----
 
 ### Save System / Snapshots
 * **Flat array arena copy**
@@ -100,8 +92,6 @@ The sheet is intentionally loose; ideas are meant to be grab-and-go for future-m
   - Z = minor → ignored for compatibility
   - Use Lua for migration scripts.
 
----
-
 ### Event-Driven Rendering / “Only Render When Needed”
 
 To maximize performance and reduce unnecessary CPU/GPU usage, Ternyte will use **event-driven rendering**, only redrawing the screen when something has actually changed.
@@ -122,8 +112,6 @@ To maximize performance and reduce unnecessary CPU/GPU usage, Ternyte will use *
 * Whenever a visual change occurs: `dirty = true`.
 * In the main loop or iterate function:
 
----
-
 ### Logging / Panic / Debug
 * **Cycle-based logging**
   - Every simulation cycle = one log line.
@@ -137,8 +125,6 @@ To maximize performance and reduce unnecessary CPU/GPU usage, Ternyte will use *
 * **Minor panic / warnings**
   - Record non-critical events in log without aborting.
   - Footnotes for future debugging.
-
----
 
 ### Performance / Optimization Ideas
 * **Contiguous memory layout**
@@ -166,8 +152,6 @@ To maximize performance and reduce unnecessary CPU/GPU usage, Ternyte will use *
     - Massive grid updates
     - Logic simulations for very large circuits
     - Memory copying for snapshots
-
----
 
 ### Miscellaneous / Experimental Ideas
 * **Terminal-first interface**
