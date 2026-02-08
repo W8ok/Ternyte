@@ -2,12 +2,11 @@
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-#include <stdio.h>
 #include <string.h>
 
-#include "../main.h"
+#include "save.h"
 
-void save_settings(AppSettings *settings)
+bool save_settings(AppSettings *settings)
 {
   lua_State *L = luaL_newstate();
   luaL_openlibs(L);
@@ -26,14 +25,16 @@ void save_settings(AppSettings *settings)
 
   if (luaL_dofile(L, "src/saving/save-settings.lua") != LUA_OK)
   {
-    const char *err = lua_tostring(L, -1);
+    const char* err = lua_tostring(L, -1);
     printf("Lua error (save): %s\n", err);
   }
 
   lua_close(L);
+
+  return true;
 }
 
-void load_settings(AppSettings *settings)
+bool load_settings(AppSettings *settings)
 {
   
   FILE *f = fopen("src/saving/settings.racc", "r");
@@ -50,17 +51,27 @@ void load_settings(AppSettings *settings)
     const char *err = lua_tostring(L, -1);
     printf("Lua error (load): %s\n", err);
     lua_close(L);
-    return;
+    return false;
   }
 
   lua_getglobal(L, "app_name");
   if (lua_isstring(L, -1))
-    snprintf(settings->name, sizeof(settings->name), "%s", lua_tostring(L, -1));
-  lua_pop(L, 1);
+  {
+    size_t len;
+    const char *s = lua_tolstring(L, -1, &len);
 
-  lua_getglobal(L, "app_version");
-  if (lua_isstring(L, -1))
-    settings->version = lua_tostring(L, -1);
+    if (len >= sizeof(settings->name))
+    {
+      lua_close(L);
+      return false;
+    }
+
+    if (strcmp(s, settings->name) != 0)
+    {
+      lua_close(L);
+      return false;
+    }
+  }
   lua_pop(L, 1);
 
   lua_getglobal(L, "app_fullscreen");
@@ -74,5 +85,7 @@ void load_settings(AppSettings *settings)
   lua_pop(L, 1);
 
   lua_close(L);
+
+  return true;
 }
 

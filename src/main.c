@@ -1,9 +1,9 @@
 // main.c
 #define SDL_MAIN_USE_CALLBACKS true
 #include <SDL3/SDL_main.h>
+#include <SDL3/SDL.h>
 
 #include "main.h"
-#include "saving/save.h"
 
 SDL_AppResult SDL_Panic(const char* msg)
 {
@@ -60,11 +60,15 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
   {
     switch (event->key.key) 
     {
+      case SDLK_F11:
+        app->settings.fullscreen = !app->settings.fullscreen;
+        if (!SDL_SetWindowFullscreen(app->window, app->settings.fullscreen))
+          printf("Failed to set fullscreen");
+        break;
+
       case SDLK_S: save_settings(&app->settings); break;
-      case SDLK_L: load_settings(&app->settings); break;
     }
   }
-
   return SDL_APP_CONTINUE;
 }
 
@@ -72,6 +76,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
 {
   (void)argc;
   (void)argv;
+
+  // Just for OCD reasons
+  printf("\n");
 
   // Allocate the AppContext
   AppContext *app = (AppContext *)SDL_calloc(1, sizeof(AppContext));
@@ -86,12 +93,17 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
     .driver = REAL_TIME
   };
 
+  // Load saved settings
+  if (!load_settings(&app->settings))
+    return SDL_Panic("Settings failed to load");
+
   *appstate = app;
 
   // SDL stuff
   if (!SDL_Init(SDL_INIT_VIDEO))
     return SDL_Panic("SDL Initialization failed");
 
+  // Display Size
   SDL_DisplayID display = SDL_GetPrimaryDisplay();
   SDL_Rect display_bounds;
   if (!SDL_GetDisplayBounds(display, &display_bounds))
@@ -100,15 +112,14 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   if (!SDL_SetAppMetadata(app->settings.name, app->settings.version, NULL))
     return SDL_Panic("Metadata creation failed");
 
-  if (!SDL_CreateWindowAndRenderer(app->settings.name, display_bounds.x, display_bounds.y,
-                                   SDL_WINDOW_RESIZABLE, &app->window, &app->renderer))
+  if (!SDL_CreateWindowAndRenderer(app->settings.name, display_bounds.x, display_bounds.y, SDL_WINDOW_RESIZABLE, &app->window, &app->renderer))
     return SDL_Panic("Window/Renderer creation failed");
 
   if (SDL_RenderPresent(app->renderer))
     printf("Successfully opened the window\n");
 
-  // Load saved settings
-  //load_settings(&app->settings);
+  if (!SDL_SetWindowFullscreen(app->window, app->settings.fullscreen))
+    SDL_Panic("Failed to apply fullscreen");
 
   return SDL_APP_CONTINUE;
 }

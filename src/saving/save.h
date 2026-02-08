@@ -1,5 +1,21 @@
 // save.h
 #pragma once
 
-void save_settings(AppSettings *settings);
-void load_settings(AppSettings *settings);
+#include <stdbool.h>
+#include <stdio.h>
+
+typedef enum {
+  EVENT_DRIVEN,
+  REAL_TIME,
+  DRIVER_COUNT
+} DriverID;
+
+typedef struct {
+  char name[16];
+  char version[16];
+  bool fullscreen;
+  DriverID driver;
+} AppSettings;
+
+bool save_settings(AppSettings *settings);
+bool load_settings(AppSettings *settings);

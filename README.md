@@ -1,5 +1,7 @@
 # Ternyte - My (hopefully) actually useful passion project
 
+[Drafting Notes](DRAFTING.md)  
+
 I was looking for a good ternary logic simulator but couldn't find anything that fit my needs.  
 So I decided to try and make my own.  
 

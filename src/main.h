@@ -1,21 +1,10 @@
 // main.h
 #pragma once
 
-#include <SDL3/SDL.h>
 #include <stdio.h>
+#include <stdbool.h>
 
-typedef enum {
-  EVENT_DRIVEN,
-  REAL_TIME,
-  DRIVER_COUNT
-} DriverID;
-
-typedef struct {
-  char name[256];
-  const char* version;
-  bool fullscreen;
-  DriverID driver;
-} AppSettings;
+#include "saving/save.h"
 
 typedef struct { 
   SDL_Window* window;
