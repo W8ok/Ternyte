@@ -4,3 +4,7 @@ obj/
 # Project executables
 ternyte
 executables/
+
+# Savefiles
+*.racc
+# .racc is my goober af save file extension :3

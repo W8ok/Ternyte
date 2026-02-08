@@ -10,11 +10,16 @@ typedef enum {
   DRIVER_COUNT
 } DriverID;
 
+typedef struct {
+  char name[256];
+  const char* version;
+  bool fullscreen;
+  DriverID driver;
+} AppSettings;
+
 typedef struct { 
   SDL_Window* window;
   SDL_Renderer* renderer;
-  const char* version;
-  const char* name;
 
-  DriverID driver;
+  AppSettings settings;
 } AppContext;

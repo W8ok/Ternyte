@@ -1,5 +1,6 @@
 # Sources
-SRCS = src/main.c
+SRCS = src/*.c \
+			 src/saving/*.c
 
 # Assets
 ASSETS = assets/
@@ -19,13 +20,13 @@ WINDOWS_BIN = $(WINDOWS_DIR)/$(PROJECT_NAME).exe
 # Linux Config
 CC_LINUX = gcc
 CFLAGS_LINUX = -std=c11 -Wall -Wextra -Isrc -O2
-LDFLAGS_LINUX = -lSDL3 -lGL -lm -lpthread -ldl -s
+LDFLAGS_LINUX = -lSDL3 -lGL -lm -lpthread -ldl -llua -s
 OBJS_LINUX = $(SRCS:src/%.c=obj/linux/%.o)
 
 # Windows Config
 CC_WIN = x86_64-w64-mingw32-gcc
 CFLAGS_WIN = -std=c11 -Wall -Wextra -Isrc -Iwinlibs/include
-LDFLAGS_WIN = -Lwinlibs/lib -lSDL3 -lopengl32 -lm -lpthread -lwinmm -lgdi32
+LDFLAGS_WIN = -Lwinlibs/lib -lSDL3 -lopengl32 -lm -lpthread -lwinmm -lgdi32 -llua
 OBJS_WIN = $(SRCS:src/%.c=obj/win/%.o)
 
 # Simple Development Build
