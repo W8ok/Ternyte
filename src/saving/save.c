@@ -74,13 +74,5 @@ void load_settings(AppSettings *settings)
   lua_pop(L, 1);
 
   lua_close(L);
-
-  printf("Loaded settings:\n");
-  printf("  name: %s\n", settings->name);
-  printf("  version: %s\n", settings->version);
-  printf("  fullscreen: %s\n", settings->fullscreen ? "true" : "false");
-  const char* driver_str = settings->driver == REAL_TIME ? "REAL_TIME" :
-                           settings->driver == EVENT_DRIVEN ? "EVENT_DRIVEN" : "UNKNOWN";
-  printf("  driver: %s\n", driver_str);
 }
 

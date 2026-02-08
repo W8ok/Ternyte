@@ -1,7 +1,7 @@
 local f = assert(io.open("src/saving/settings.racc", "r"))
 
 -- Helper to read label + value
-local function read_label_value()
+local function _read_label_value()
   local label = f:read("*line")
   local value = f:read("*line")
   if value then
@@ -11,19 +11,19 @@ local function read_label_value()
 end
 
 -- name
-local _, value = read_label_value()
+local _, value = _read_label_value()
 app_name = value
 
 -- version
-_, value = read_label_value()
+_, value = _read_label_value()
 app_version = value
 
 -- fullscreen
-_, value = read_label_value()
+_, value = _read_label_value()
 app_fullscreen = (value == "true")
 
 -- driver
-_, value = read_label_value()
+_, value = _read_label_value()
 if value == "REAL_TIME" then
   app_driver = 1
 elseif value == "EVENT_DRIVEN" then
