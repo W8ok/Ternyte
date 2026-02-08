@@ -34,7 +34,7 @@ Goals obviously change over time, so the initial goals might be very different f
 [] **Error handling & logging** - Complete panic/logging system, including cycle logging and archive management.  
 [] **Binary logic gates** - Implement all standard binary gates for testing and usage.  
 [] **Ternary logic gates** - Implement core ternary gates.  
-[] **Advanced GUI features** - Zoom, selection, drag-and-drop, component menus likely made along side a custom GUI library.  
+[] **Advanced GUI features** - Zoom, selection, drag-and-drop, component menus, likely made along side a custom GUI library.  
 [] **Hierarchical design** - Enable chip creation and combination.  
 [] **Autosave optimization** - Contiguous memory layout and multithreaded snapshot copying.
 
