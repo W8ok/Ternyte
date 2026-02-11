@@ -1,5 +1,3 @@
--- Save all AppSettings to file in labeled format
-
 local f = assert(io.open("src/saving/settings.racc", "w"))
 
 -- name and version are strings

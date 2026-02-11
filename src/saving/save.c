@@ -1,13 +1,16 @@
-// save.c
+// saving/save.c
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
 #include <string.h>
+#include <time.h>
 
-#include "save.h"
+#include "saving.h"
 
 bool save_settings(AppSettings *settings)
 {
+  clock_t start = clock();
+
   lua_State *L = luaL_newstate();
   luaL_openlibs(L);
 
@@ -27,15 +30,19 @@ bool save_settings(AppSettings *settings)
   {
     const char* err = lua_tostring(L, -1);
     printf("Lua error (save): %s\n", err);
+    return false;
   }
 
   lua_close(L);
+
+  printf("Saving time: %.3f ms\n", (double)(clock() - start) * 1000.0 / CLOCKS_PER_SEC);
 
   return true;
 }
 
 bool load_settings(AppSettings *settings)
 {
+  clock_t start = clock();
   
   FILE *f = fopen("src/saving/settings.racc", "r");
   if (!f)
@@ -85,6 +92,8 @@ bool load_settings(AppSettings *settings)
   lua_pop(L, 1);
 
   lua_close(L);
+
+  printf("Loading time: %.3f ms\n", (double)(clock() - start) * 1000.0 / CLOCKS_PER_SEC);
 
   return true;
 }

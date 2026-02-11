@@ -1,6 +1,5 @@
-# Sources
-SRCS = src/*.c \
-			 src/saving/*.c
+# Sources — recursively include all .c files
+SRCS := $(shell find src -name "*.c")
 
 # Assets
 ASSETS = assets/
@@ -21,20 +20,19 @@ WINDOWS_BIN = $(WINDOWS_DIR)/$(PROJECT_NAME).exe
 CC_LINUX = gcc
 CFLAGS_LINUX = -std=c11 -Wall -Wextra -Isrc -O2
 LDFLAGS_LINUX = -lSDL3 -lGL -lm -lpthread -ldl -llua -s
-OBJS_LINUX = $(SRCS:src/%.c=obj/linux/%.o)
+OBJS_LINUX := $(patsubst src/%.c,obj/linux/%.o,$(SRCS))
 
 # Windows Config
 CC_WIN = x86_64-w64-mingw32-gcc
 CFLAGS_WIN = -std=c11 -Wall -Wextra -Isrc -Iwinlibs/include
 LDFLAGS_WIN = -Lwinlibs/lib -lSDL3 -lopengl32 -lm -lpthread -lwinmm -lgdi32 -llua
-OBJS_WIN = $(SRCS:src/%.c=obj/win/%.o)
+OBJS_WIN := $(patsubst src/%.c,obj/win/%.o,$(SRCS))
 
 # Simple Development Build
 DEV_BIN = $(PROJECT_NAME)
-DEV_OBJS = $(SRCS:src/%.c=obj/dev/%.o)
+DEV_OBJS := $(patsubst src/%.c,obj/dev/%.o,$(SRCS))
 
 .DEFAULT_GOAL := clean-make
-
 
 linux: $(LINUX_ZIP)
 

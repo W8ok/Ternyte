@@ -7,14 +7,18 @@
 
 SDL_AppResult SDL_Panic(const char* msg)
 {
+  time_t t = time(NULL);
+  struct tm* tm_info = localtime(&t);
+
+  char time_buf[20];
+  strftime(time_buf, sizeof(time_buf), "%H:%M:%S", tm_info);
+
   const char* error = SDL_GetError();
 
-  // If theres an error message, then print it
   if (error && error[0] != '\0')
-    printf("Panic! %s: \t%s\n", msg, error);
-
+    printf("[%s] FATAL: Panic! %s:\t%s\n", time_buf, msg, error);
   else
-    printf("Panic! %s: \t(No Error Message)\n", msg);
+    printf("[%s] FATAL: Panic! %s:\t(No Error Message)\n", time_buf, msg);
 
   return SDL_APP_FAILURE;
 }
@@ -36,14 +40,26 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     case REAL_TIME:
       goto LBL_Render;
 
+    case LOGIC_SIM:
+      goto LBL_Logic;
+
     default: goto LBL_Continue;
   }
 
-LBL_Render:
-  //render();
+LBL_Logic:
+  //logic_main(app->lc);
 
-  if (!SDL_RenderPresent(app->renderer))
-    SDL_Panic("Render present failed\n");
+LBL_Render:
+  if (!app->rc->window) 
+    return SDL_Panic("Window is NULL and is thus dead");
+
+  if (!app->rc->sdl_renderer || !sdl_renderer)
+    return SDL_Panic("Renderer is NULL and is thus dead");
+
+  render_main(app->rc);
+
+  if (!SDL_RenderPresent(sdl_renderer))
+    return SDL_Panic("Render present failed");
 
 LBL_Continue:
   return SDL_APP_CONTINUE;
@@ -80,12 +96,22 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   // Just for OCD reasons
   printf("\n");
 
-  // Allocate the AppContext
+  // Allocate AppContext
   AppContext *app = (AppContext *)SDL_calloc(1, sizeof(AppContext));
   if (!app)
     return SDL_Panic("AppContext memory allocation failed");
 
-  // Initialize default settings
+  // Allocate RenderContext
+  app->rc = (RenderContext *)SDL_calloc(1, sizeof(RenderContext));
+  if (!app->rc)
+    return SDL_Panic("RenderContext memory allocation failed");
+
+  // Allocate LogicContext
+  app->lc = (LogicContext *)SDL_calloc(1, sizeof(LogicContext));
+  if (!app->lc)
+    return SDL_Panic("LogicContext memory allocation failed");
+
+// Initialize default settings
   app->settings = (AppSettings){
     .name = "Ternyte",
     .version = "v0.0.1",
@@ -115,15 +141,25 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   if (!SDL_CreateWindowAndRenderer(app->settings.name, display_bounds.x, display_bounds.y, SDL_WINDOW_RESIZABLE, &app->window, &app->renderer))
     return SDL_Panic("Window/Renderer creation failed");
 
-  if (SDL_RenderPresent(app->renderer))
-    printf("Successfully opened the window\n");
+  if (!SDL_RenderPresent(app->renderer))
+    return SDL_Panic("Failed to present initial frame");
+  printf("Successfully opened the window\n");
 
   if (!SDL_SetWindowFullscreen(app->window, app->settings.fullscreen))
     SDL_Panic("Failed to apply fullscreen");
 
+  app->rc->window = app->window;
+  app->rc->sdl_renderer = app->renderer;
+  sdl_renderer = app->renderer;
+  app->rc->lc = app->lc;
+
+  // Testing only
+  app->lc->gate = (Gates *)SDL_calloc(255, sizeof(Gates));
+  for (int i = 0; i < 255; i++)
+    app->lc->gate[i] = 2;
+
   return SDL_APP_CONTINUE;
 }
-
 
 void SDL_AppQuit(void *appstate, SDL_AppResult result)
 {
@@ -136,5 +172,8 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
 
   SDL_DestroyRenderer(app->renderer);
   SDL_DestroyWindow(app->window);
+  SDL_free(app->rc);
+  SDL_free(app->lc->gate);
+  SDL_free(app->lc);
   SDL_free(app);
 }

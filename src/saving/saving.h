@@ -1,4 +1,4 @@
-// save.h
+// saving/saving.h
 #pragma once
 
 #include <stdbool.h>
@@ -7,6 +7,7 @@
 typedef enum {
   EVENT_DRIVEN,
   REAL_TIME,
+  LOGIC_SIM,
   DRIVER_COUNT
 } DriverID;
 
