@@ -156,7 +156,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   // Testing only
   app->lc->gate = (Gates *)SDL_calloc(255, sizeof(Gates));
   for (int i = 0; i < 255; i++)
-    app->lc->gate[i] = 2;
+    app->lc->gate[i].size = 2;
 
   return SDL_APP_CONTINUE;
 }
