@@ -2,4 +2,4 @@ winlibs/** linguist-vendored
 maclibs/** linguist-vendored
 executables/** linguist-vendored
 legacy/** linguist-vendored
-clay.h** linguist-vendored
+src/gui/clay.h linguist-vendored
