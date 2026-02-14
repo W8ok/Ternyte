@@ -9,6 +9,12 @@ typedef struct {
 } Gates;
 
 typedef struct {
+  int x1, y1, x2, y2;
+} Wires;
+
+typedef struct {
   Gates* gate;
-  size_t gate_count;
+  Wires* wire;
+  uint8_t gate_count;
+  uint8_t wire_count;
 } LogicContext;

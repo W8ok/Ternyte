@@ -6,6 +6,7 @@
 
 #include "save/save.h"
 #include "render/render.h"
+#include "gui/gui.h"
 #include "logic/logic.h"
 
 typedef struct { 
@@ -13,6 +14,7 @@ typedef struct {
   SDL_Renderer* renderer;
 
   RenderContext* rc;
+  UiContext* uc;
   LogicContext* lc;
 
   AppSettings settings;

@@ -44,6 +44,7 @@ bool load_settings(AppSettings *settings)
 {
   clock_t start = clock();
   
+  // Checks if the file exists
   FILE *f = fopen("src/save/settings.racc", "r");
   if (!f)
     save_settings(settings);
@@ -53,6 +54,7 @@ bool load_settings(AppSettings *settings)
   lua_State *L = luaL_newstate();
   luaL_openlibs(L);
 
+  // Error checking
   if (luaL_dofile(L, "src/save/load-settings.lua") != LUA_OK)
   {
     const char *err = lua_tostring(L, -1);
@@ -61,6 +63,7 @@ bool load_settings(AppSettings *settings)
     return false;
   }
 
+  // If the program name is not the same return false
   lua_getglobal(L, "app_name");
   if (lua_isstring(L, -1))
   {
@@ -81,6 +84,7 @@ bool load_settings(AppSettings *settings)
   }
   lua_pop(L, 1);
 
+  // Load the values
   lua_getglobal(L, "app_fullscreen");
   if (lua_isboolean(L, -1))
     settings->fullscreen = lua_toboolean(L, -1);

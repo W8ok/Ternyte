@@ -57,6 +57,7 @@ LBL_Render:
   if (!app->rc->sdl_renderer || !sdl_renderer)
     return SDL_Panic("Renderer is NULL and is thus dead");
 
+  ui_main(app->uc);
   render_main(app->rc);
 
   if (!SDL_RenderPresent(sdl_renderer))
@@ -96,12 +97,17 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   if (!app->rc)
     return SDL_Panic("RenderContext memory allocation failed");
 
+  // Allocate UiContext
+  app->uc = (UiContext *)SDL_calloc(1, sizeof(UiContext));
+  if (!app->uc)
+    return SDL_Panic("UiContext memory allocation failed");
+
   // Allocate LogicContext
   app->lc = (LogicContext *)SDL_calloc(1, sizeof(LogicContext));
   if (!app->lc)
     return SDL_Panic("LogicContext memory allocation failed");
 
-// Initialize default settings
+  // Initialize default settings
   app->settings = (AppSettings){
     .name = "Ternyte",
     .version = "v0.0.1",
@@ -142,9 +148,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   app->rc->sdl_renderer = app->renderer;
   sdl_renderer = app->renderer;
   app->rc->lc = app->lc;
+  app->uc->rc = app->rc;
 
   // Testing only
   app->lc->gate = (Gates *)SDL_calloc(255, sizeof(Gates));
+  app->lc->wire = (Wires *)SDL_calloc(255, sizeof(Wires));
   for (int i = 0; i < 255; i++)
     app->lc->gate[i].size = 2;
 
@@ -164,8 +172,12 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
   SDL_DestroyWindow(app->window);
   if (app->rc)
     SDL_free(app->rc);
+  if (app->uc)
+    SDL_free(app->uc);
   if (app->lc->gate)
     SDL_free(app->lc->gate);
+  if (app->lc->wire)
+    SDL_free(app->lc->wire);
   if (app->lc)
     SDL_free(app->lc);
   if (app)

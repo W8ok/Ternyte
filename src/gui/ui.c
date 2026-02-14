@@ -1,10 +1,11 @@
-// render/baseui.c
-#include "render.h"
+// gui/ui.c
+#define CLAY_IMPLEMENTATION
+#include "gui.h"
 
-void render_grid(RenderContext* rc, int cell_size)
+void ui_grid(UiContext* uc, int cell_size)
 {
   int w, h;
-  SDL_GetWindowSize(rc->window, &w, &h);
+  SDL_GetWindowSize(uc->rc->window, &w, &h);
 
   _set_color(GRAY);
 
@@ -25,10 +26,10 @@ void render_grid(RenderContext* rc, int cell_size)
   }
 }
 
-void render_main(RenderContext* rc)
+void ui_main(UiContext* uc)
 {
   if (!_clear_background(DARK_GRAY))
     return;
 
-  render_grid(rc, 20);
+  ui_grid(uc, 20);
 }

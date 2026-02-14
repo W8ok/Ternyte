@@ -6,14 +6,23 @@
 
 #include "colors.h"
 #include "sdl_helpers.h"
-#include "../logic/logic.h" // Only for render previews
+#include "coords.h"
+#include "../logic/logic.h"
+
+typedef struct {
+  float zoom;
+  SDL_FPoint offset;
+} Camera; // Eventually :3
 
 typedef struct {
   SDL_Window* window;
   SDL_Renderer* sdl_renderer; 
 
-  const LogicContext* lc;
+  Camera cam;
+
+  LogicContext* lc;
 } RenderContext;
 
-// baseui.c
 void render_main(RenderContext* rc);
+void wire_render(RenderContext* rc);
+void wire_preview(RenderContext* rc);
