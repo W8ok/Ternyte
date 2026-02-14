@@ -1,5 +1,5 @@
-// rendering/baseui.c
-#include "rendering.h"
+// render/baseui.c
+#include "render.h"
 
 void render_grid(RenderContext* rc, int cell_size)
 {

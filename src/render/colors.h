@@ -1,4 +1,4 @@
-// rendering/colors.h
+// render/colors.h
 #pragma once
 
 #include <SDL3/SDL.h>

@@ -1,4 +1,4 @@
-// rendering/sdl_helpers.h
+// render/sdl_helpers.h
 #pragma once
 
 #include <stdio.h>

@@ -36,7 +36,7 @@ Goals obviously change over time, so the initial goals might be very different f
 [] **Error handling & logging** - Complete panic/logging system, including cycle logging and archive management.  
 [] **Binary logic gates** - Implement all standard binary gates for testing and usage.  
 [] **Ternary logic gates** - Implement core ternary gates.  
-[] **Advanced GUI features** - Zoom, selection, drag-and-drop, component menus, likely made along side a custom GUI library.  
+[] **Advanced GUI features** - Zoom, selection, drag-and-drop, component menus, likely done via some library like Clay.  
 [] **Hierarchical design** - Enable chip creation and combination.  
 [] **Autosave optimization** - Contiguous memory layout and multithreaded snapshot copying.
 
@@ -53,4 +53,6 @@ Goals obviously change over time, so the initial goals might be very different f
 - Decided to fully commit to **SDL3** as a system framework.  
 - Wrote a complete plan for architecture: save system, logging, Lua integration, and future optimizations.  
 - Starting fresh with a grid-based workspace and terminal-driven commands to build a solid foundation before adding logic, GUI features, and hierarchical design.  
-- Today marks the new starting point: a structured, scalable approach with long-term maintainability in mind.
+- Today marks the new starting point: a structured, scalable approach with long-term maintainability in mind.  
+
+**14/02/2026** - Got a basic expandable settings saving system working, which should be applicable as a template to my finalized saving system.

@@ -4,6 +4,7 @@
 #include <SDL3/SDL.h>
 
 #include "main.h"
+#include "input/input.h" // main.h didnt want it... so ig it lives here now
 
 SDL_AppResult SDL_Panic(const char* msg)
 {
@@ -69,21 +70,10 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 {
   AppContext *app = (AppContext *)appstate;
 
-  if (event->type == SDL_EVENT_QUIT)
-    return SDL_APP_SUCCESS;
-
-  if (event->type == SDL_EVENT_KEY_DOWN)
+  switch (event->type)
   {
-    switch (event->key.key) 
-    {
-      case SDLK_F11:
-        app->settings.fullscreen = !app->settings.fullscreen;
-        if (!SDL_SetWindowFullscreen(app->window, app->settings.fullscreen))
-          printf("Failed to set fullscreen");
-        break;
-
-      case SDLK_S: save_settings(&app->settings); break;
-    }
+    case SDL_EVENT_QUIT: return SDL_APP_SUCCESS;
+    case SDL_EVENT_KEY_DOWN: key_main(app, event->key.key); break;
   }
   return SDL_APP_CONTINUE;
 }
@@ -172,8 +162,12 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
 
   SDL_DestroyRenderer(app->renderer);
   SDL_DestroyWindow(app->window);
-  SDL_free(app->rc);
-  SDL_free(app->lc->gate);
-  SDL_free(app->lc);
-  SDL_free(app);
+  if (app->rc)
+    SDL_free(app->rc);
+  if (app->lc->gate)
+    SDL_free(app->lc->gate);
+  if (app->lc)
+    SDL_free(app->lc);
+  if (app)
+    SDL_free(app);
 }

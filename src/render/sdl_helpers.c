@@ -1,4 +1,4 @@
-// rendering/sdl_helpers.c
+// render/sdl_helpers.c
 #include "sdl_helpers.h"
 
 SDL_Renderer* sdl_renderer;

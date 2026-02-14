@@ -35,9 +35,7 @@ DEV_OBJS := $(patsubst src/%.c,obj/dev/%.o,$(SRCS))
 .DEFAULT_GOAL := clean-make
 
 linux: $(LINUX_ZIP)
-
 windows: $(WINDOWS_ZIP)
-
 all: linux windows
 
 # Development Build
@@ -92,7 +90,7 @@ $(WINDOWS_ZIP): $(WINDOWS_DIR)
 	@echo "Windows archive: $(WINDOWS_ZIP)"
 
 # Utilities
-run: clean-make
+run: $(DEV_BIN)
 	./$(DEV_BIN)
 
 clean:
@@ -116,6 +114,7 @@ clean-dev:
 help:
 	@echo "Available targets:"
 	@echo "	make or make run	- Build/run development binary in root (.o in obj/dev/)"
+	@echo "	make quick-run		- Incremental run without cleaning"
 	@echo "	make linux		- Build Linux folder + zip"
 	@echo "	make windows		- Build Windows folder + zip"
 	@echo "	make all		- Build both"
@@ -124,5 +123,5 @@ help:
 	@echo "	make clean-linux	- Clean Linux builds"
 	@echo "	make clean-windows	- Clean Windows builds"
 
-.PHONY: linux windows all run clean clean-dev clean-linux clean-windows help
+.PHONY: linux windows all run quick-run clean clean-dev clean-linux clean-windows help
 

@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "saving/saving.h"
-#include "rendering/rendering.h"
+#include "save/save.h"
+#include "render/render.h"
 #include "logic/logic.h"
 
 typedef struct { 

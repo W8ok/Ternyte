@@ -1,4 +1,4 @@
-// rendering/rendering.h
+// render/render.h
 #pragma once
 
 #include <stdio.h>
@@ -6,7 +6,7 @@
 
 #include "colors.h"
 #include "sdl_helpers.h"
-#include "../logic/logic.h"
+#include "../logic/logic.h" // Only for render previews
 
 typedef struct {
   SDL_Window* window;
