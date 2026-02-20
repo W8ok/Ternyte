@@ -36,6 +36,13 @@ bool _set_color(SDL_Color color)
 bool _render_line(SDL_FPoint start, SDL_FPoint end)
 {
   if (!SDL_RenderLine(sdl_renderer, start.x, start.y, end.x, end.y))
-    return _render_panic("_render_line_failed");
+    return _render_panic("_render_line failed");
+  return true;
+}
+
+bool _render_fill_rect(const SDL_FRect* rect)
+{
+  if (!SDL_RenderFillRect(sdl_renderer, rect))
+    return _render_panic("_render_filL_rect failed");
   return true;
 }

@@ -12,4 +12,4 @@ bool _render_panic(const char* msg);
 bool _clear_background(SDL_Color color);
 bool _set_color(SDL_Color color);
 bool _render_line(SDL_FPoint start, SDL_FPoint end);
-
+bool _render_fill_rect(const SDL_FRect* rect);

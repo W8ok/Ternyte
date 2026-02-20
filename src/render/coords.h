@@ -18,3 +18,8 @@ static inline SDL_FPoint _grid_to_screen(SDL_FPoint grid_point, float grid_size)
   grid_point.y * grid_size
   };
 }
+
+static inline SDL_FPoint _snap_to_grid(SDL_FPoint point, float grid_size)
+{
+  return _grid_to_screen(_screen_to_grid(point, grid_size), grid_size);
+}

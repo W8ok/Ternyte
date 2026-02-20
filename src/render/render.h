@@ -21,8 +21,13 @@ typedef struct {
   Camera cam;
 
   LogicContext* lc;
+
+  uint8_t grid_size;
 } RenderContext;
 
 void render_main(RenderContext* rc);
 void wire_render(RenderContext* rc);
-void wire_preview(RenderContext* rc);
+bool wire_creation(RenderContext* rc, SDL_FPoint point);
+
+void gate_render(RenderContext* rc);
+bool gate_creation(RenderContext* rc, SDL_FPoint point);

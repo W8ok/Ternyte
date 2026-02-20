@@ -75,6 +75,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
   {
     case SDL_EVENT_QUIT: return SDL_APP_SUCCESS;
     case SDL_EVENT_KEY_DOWN: key_main(app, event->key.key); break;
+    case SDL_EVENT_MOUSE_BUTTON_DOWN: mouse_main(app, event->button); break;
   }
   return SDL_APP_CONTINUE;
 }
@@ -87,25 +88,22 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   // Just for OCD reasons
   printf("\n");
 
-  // Allocate AppContext
+  // Initial memory allocations
   AppContext *app = (AppContext *)SDL_calloc(1, sizeof(AppContext));
   if (!app)
     return SDL_Panic("AppContext memory allocation failed");
-
-  // Allocate RenderContext
   app->rc = (RenderContext *)SDL_calloc(1, sizeof(RenderContext));
   if (!app->rc)
     return SDL_Panic("RenderContext memory allocation failed");
-
-  // Allocate UiContext
   app->uc = (UiContext *)SDL_calloc(1, sizeof(UiContext));
   if (!app->uc)
     return SDL_Panic("UiContext memory allocation failed");
-
-  // Allocate LogicContext
   app->lc = (LogicContext *)SDL_calloc(1, sizeof(LogicContext));
   if (!app->lc)
     return SDL_Panic("LogicContext memory allocation failed");
+  app->cir = (CircuitContext *)SDL_calloc(1, sizeof(CircuitContext));
+  if (!app->cir)
+    return SDL_Panic("CircuitContext memory allocation failed");
 
   // Initialize default settings
   app->settings = (AppSettings){
@@ -150,11 +148,16 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
   app->rc->lc = app->lc;
   app->uc->rc = app->rc;
 
-  // Testing only
-  app->lc->gate = (Gates *)SDL_calloc(255, sizeof(Gates));
-  app->lc->wire = (Wires *)SDL_calloc(255, sizeof(Wires));
-  for (int i = 0; i < 255; i++)
-    app->lc->gate[i].size = 2;
+  app->rc->grid_size = 20;
+  app->lc->gate_capacity = 100;
+  app->lc->wire_capacity = 100;
+
+  app->lc->gate = (Gates *)SDL_calloc(app->lc->gate_capacity, sizeof(Gates));
+  if (!app->lc->gate)
+    return SDL_Panic("Gates memory allocation failed");
+  app->lc->wire = (Wires *)SDL_calloc(app->lc->wire_capacity, sizeof(Wires));
+  if (!app->lc->wire)
+    return SDL_Panic("Wires memory allocation failed");
 
   return SDL_APP_CONTINUE;
 }
@@ -180,6 +183,8 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
     SDL_free(app->lc->wire);
   if (app->lc)
     SDL_free(app->lc);
+  if (app->cir)
+    SDL_free(app->cir);
   if (app)
     SDL_free(app);
 }

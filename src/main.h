@@ -18,4 +18,7 @@ typedef struct {
   LogicContext* lc;
 
   AppSettings settings;
+  CircuitContext* cir;
+
+  bool terminal;
 } AppContext;

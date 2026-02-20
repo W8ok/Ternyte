@@ -4,6 +4,7 @@
 
 void ui_grid(UiContext* uc, int cell_size)
 {
+  // Could just make this a texture and save lots of processing
   int w, h;
   SDL_GetWindowSize(uc->rc->window, &w, &h);
 
@@ -31,5 +32,5 @@ void ui_main(UiContext* uc)
   if (!_clear_background(DARK_GRAY))
     return;
 
-  ui_grid(uc, 20);
+  ui_grid(uc, uc->rc->grid_size);
 }

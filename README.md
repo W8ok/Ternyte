@@ -30,8 +30,8 @@ Goals obviously change over time, so the initial goals might be very different f
 
 [x] **Foundation setup** - Project restarted, SDL3 selected, and initial data structures designed.  
 [x] **Planning & restructuring** - Defined architecture for saving, logging, component placement, and future multithreaded autosaving.  
-[] **Basic SDL3 rendering** - Draw grid, components, and wires, and implement keyboard/mouse interaction.  
-[] **Save/load system** - Implement Lua-based serialization, version checks, and backup system.  
+[x] **Basic SDL3 rendering** - Draw grid, components, and wires, and implement keyboard/mouse interaction.  
+[x] **Save/load system** - Implement Lua-based serialization, version checks, and backup system.  
 [] **Terminal interface** - Implement terminal commands for placing components and wires on a grid.  
 [] **Error handling & logging** - Complete panic/logging system, including cycle logging and archive management.  
 [] **Binary logic gates** - Implement all standard binary gates for testing and usage.  
@@ -55,4 +55,6 @@ Goals obviously change over time, so the initial goals might be very different f
 - Starting fresh with a grid-based workspace and terminal-driven commands to build a solid foundation before adding logic, GUI features, and hierarchical design.  
 - Today marks the new starting point: a structured, scalable approach with long-term maintainability in mind.  
 
-**14/02/2026** - Got a basic expandable settings saving system working, which should be applicable as a template to my finalized saving system.
+**14/02/2026** - Got a basic expandable settings saving system working, which should be applicable as a template to my finalized saving system.  
+
+**20/02/2026** - Made the ground work of the gate and wire placement systems as well as making a human "readable" save system.  

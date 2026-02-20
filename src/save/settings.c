@@ -1,4 +1,4 @@
-// save/save.c
+// save/settings.c
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -7,7 +7,7 @@
 
 #include "save.h"
 
-bool save_settings(AppSettings *settings)
+bool save_settings(AppSettings* settings)
 {
   clock_t start = clock();
 
@@ -29,18 +29,17 @@ bool save_settings(AppSettings *settings)
   if (luaL_dofile(L, "src/save/save-settings.lua") != LUA_OK)
   {
     const char* err = lua_tostring(L, -1);
-    printf("Lua error (save): %s\n", err);
+    printf("Lua error (save-set): %s\n", err);
     return false;
   }
 
   lua_close(L);
 
-  printf("Saving time: %.3f ms\n", (double)(clock() - start) * 1000.0 / CLOCKS_PER_SEC);
-
+  printf("Save settings time: %.3f ms\n", (double)(clock() - start) * 1000.0 / CLOCKS_PER_SEC);
   return true;
 }
 
-bool load_settings(AppSettings *settings)
+bool load_settings(AppSettings* settings)
 {
   clock_t start = clock();
   
@@ -58,7 +57,7 @@ bool load_settings(AppSettings *settings)
   if (luaL_dofile(L, "src/save/load-settings.lua") != LUA_OK)
   {
     const char *err = lua_tostring(L, -1);
-    printf("Lua error (load): %s\n", err);
+    printf("Lua error (load-set): %s\n", err);
     lua_close(L);
     return false;
   }
@@ -97,8 +96,7 @@ bool load_settings(AppSettings *settings)
 
   lua_close(L);
 
-  printf("Loading time: %.3f ms\n", (double)(clock() - start) * 1000.0 / CLOCKS_PER_SEC);
-
+  printf("Load settings time: %.3f ms\n", (double)(clock() - start) * 1000.0 / CLOCKS_PER_SEC);
   return true;
 }
 

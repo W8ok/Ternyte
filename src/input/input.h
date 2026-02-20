@@ -3,3 +3,4 @@
 #include "../main.h"
 
 void key_main(AppContext* app, SDL_Keycode key);
+void mouse_main(AppContext* app, SDL_MouseButtonEvent button);
